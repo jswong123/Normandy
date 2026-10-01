@@ -113,7 +113,7 @@ export class CampaignSelection {
 
     renderTheaters() {
 
-        const cards = CAMPAIGNS.map(item => `
+        const cards = CAMPAIGNS.filter(Boolean).map(item => `
 
             <button data-theater="${item.id}" style="min-height:${item.ui?.height ?? 150}px;${item.ui?.width ? `width:${item.ui.width}px;` : ''}padding:20px;
 
@@ -144,7 +144,7 @@ export class CampaignSelection {
             button.onclick = () => {
 
                 this.rootTheater = null;
-                this.theater = CAMPAIGNS.find(x => x.id === button.dataset.theater);
+                this.theater = CAMPAIGNS.find(x => x?.id === button.dataset.theater);
                 if (Array.isArray(this.theater?.subtheaters) && this.theater.subtheaters.length) this.renderSubtheaters();
                 else this.renderPhases();
 
@@ -182,7 +182,8 @@ export class CampaignSelection {
 
     renderPhases() {
 
-        const cards = this.theater.phases.map(item => `
+        const phases = Array.isArray(this.theater?.phases) ? this.theater.phases : [];
+        const cards = phases.filter(Boolean).map(item => `
 
             <button data-phase="${item.id}" style="min-height:${item.ui?.height ?? 110}px;${item.ui?.width ? `width:${item.ui.width}px;` : ''}padding:18px;
 
@@ -192,7 +193,7 @@ export class CampaignSelection {
 
                 <div style="margin-top:10px;color:#625e50;">
 
-                    ${item.scenarios.some(s => s.status === "available") ? "可进入" : (item.scenarios.some(s => s.status === "interface") ? "战役接口已建立" : "尚未开放")}
+                    ${(item.scenarios ?? []).some(s => s?.status === "available") ? "可进入" : ((item.scenarios ?? []).some(s => s?.status === "interface") ? "战役接口已建立" : "尚未开放")}
 
                 </div>
 
@@ -225,7 +226,7 @@ export class CampaignSelection {
 
             button.onclick = () => {
 
-                this.phase = this.theater.phases.find(x => x.id === button.dataset.phase);
+                this.phase = (this.theater?.phases ?? []).find(x => x?.id === button.dataset.phase);
 
                 this.renderScenarios();
 
@@ -239,9 +240,10 @@ export class CampaignSelection {
 
     renderScenarios() {
 
-        const list = this.phase.scenarios.length
+        const scenarios = Array.isArray(this.phase?.scenarios) ? this.phase.scenarios : [];
+        const list = scenarios.length
 
-            ? this.phase.scenarios.map(item => {
+            ? scenarios.filter(Boolean).map(item => {
 
                 const locked = !["available", "interface"].includes(item.status);
                 const interfaceOnly = item.status === "interface" || item.interfaceOnly === true;
