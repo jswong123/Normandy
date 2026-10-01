@@ -123,6 +123,7 @@ const casualtyState = { sides: {} };
 // 2.5D tabletop view (visual only; rules and hit testing remain Hex based)
 // ============================================================
 const view25DToggle = document.getElementById("view25d-toggle");
+const controlZoneToggle = document.getElementById("control-zone-toggle");
 const view25DLeft = document.getElementById("view25d-left");
 const view25DRight = document.getElementById("view25d-right");
 const view25DDirection = document.getElementById("view25d-direction");
@@ -221,6 +222,8 @@ const fieldHospitalSystem = new FieldHospitalSystem({world,getUnits:()=>units,ge
 const airSuperioritySystem = new AirSuperioritySystem();
 const airSupportSystem = new AirSupportSystem({world,getUnits:()=>units,getTurn:()=>turnSystem?.getTurnNumber?.()??turnSystem?.turn??1,getPhase:()=>turnSystem?.phase,cards:AIR_SUPPORT_CARDS,decks:AIR_SUPPORT_DECKS,aircraft:AIRCRAFT,airDefense:airDefenseSystem,fortificationDamage:fortificationDamageSystem,airSuperiority:airSuperioritySystem,fogOfWar:fogOfWarSystem});
 renderer.fogOfWar=fogOfWarSystem;
+renderer.zoneControl=zoneControlSystem;
+renderer.showControlZones=true;
 window.frontlineFortificationDamage = fortificationDamageSystem;
 window.frontlineAirSupport = airSupportSystem;
 window.frontlineFogOfWar = fogOfWarSystem;
@@ -262,6 +265,15 @@ function render() {
     const onMap=units.filter(unit => unit.offMap !== true);
     renderer.render(fogOfWarSystem.filterUnits(onMap));
 }
+if (controlZoneToggle) {
+    controlZoneToggle.addEventListener("click", () => {
+        renderer.showControlZones = !renderer.showControlZones;
+        controlZoneToggle.textContent = renderer.showControlZones ? "控区：开" : "控区：关";
+        controlZoneToggle.setAttribute("aria-pressed", renderer.showControlZones ? "true" : "false");
+        render();
+    });
+}
+
 // ============================================================
 // 阵营标准化
 // ============================================================

@@ -642,69 +642,7 @@ export const CAMPAIGNS = [
 
     // ========================================================
 
-    {
-
-        id: "eastern_europe",
-
-        name: "东欧战场",
-
-        subtitle: "Eastern Europe",
-
- 
-
-        phases: [
-
- 
-
-            {
-
-                id: "poland_1939",
-
-                name: "1939：波兰战役",
-
-                scenarios: []
-
-            },
-
- 
-
-            {
-
-                id: "balkans_1941",
-
-                name: "1941：巴尔干战役",
-
-                scenarios: []
-
-            },
-
- 
-
-            {
-
-                id: "romania_hungary_1944",
-
-                name: "1944：罗马尼亚—匈牙利",
-
-                scenarios: []
-
-            },
-
- 
-
-            {
-
-                id: "central_europe_1945",
-
-                name: "1945：中欧决战",
-
-                scenarios: []
-
-            }
-
-        ]
-
-    },
+    ,
 
  
 
@@ -954,29 +892,99 @@ export const CAMPAIGNS = [
 
 ,
     // ========================================================
-    // 西欧战场：诺曼底登陆
+    // 欧洲战场：西欧与东欧并列入口
     // ========================================================
     {
-        id: "western_front",
-        name: "西欧战场",
-        subtitle: "Western Front · 1944–1945",
-        phases: [
+        id: "european_theater",
+        name: "欧洲战场",
+        subtitle: "European Theater · 1939–1945",
+        subtheaters: [
             {
-                id: "normandy_1944",
-                name: "1944：诺曼底登陆",
-                scenarios: [
-                    { id:"omaha_1944", name:"奥马哈海滩", subtitle:"Omaha Beach · D-Day", dateText:"1944年6月6日", location:"法国·诺曼底", status:"available", scenarioPath:"./data/scenario-omaha_1944.json", unitsPath:"./data/units-omaha_1944.json", factions:["USA","GER"], roles:{attacker:"american",defender:"german"}, start:{year:1944,month:6,day:6,hour:6,minute:30,hoursPerTurn:0.5,startingPhase:"american"} },
-                    { id:"utah_1944", name:"犹他海滩", status:"interface", interfaceOnly:true, factions:["USA","GER"], roles:{attacker:"american",defender:"german"} },
-                    { id:"pointe_du_hoc_1944", name:"奥克角", status:"interface", interfaceOnly:true, factions:["USA","GER"], roles:{attacker:"american",defender:"german"} },
-                    { id:"sainte_mere_eglise_1944", name:"圣梅尔埃格利斯", status:"interface", interfaceOnly:true, factions:["USA","GER"], roles:{attacker:"american",defender:"german"} },
-                    { id:"pegasus_bridge_1944", name:"佩加索斯桥", status:"interface", interfaceOnly:true, factions:["GBR","GER"], roles:{attacker:"british",defender:"german"} },
-                    { id:"gold_1944", name:"黄金海滩", status:"interface", interfaceOnly:true, factions:["GBR","GER"], roles:{attacker:"british",defender:"german"} },
-                    { id:"juno_1944", name:"朱诺海滩", status:"interface", interfaceOnly:true, factions:["ALLIED","GER"], roles:{attacker:"allied",defender:"german"} },
-                    { id:"sword_1944", name:"宝剑海滩", status:"interface", interfaceOnly:true, factions:["GBR","GER"], roles:{attacker:"british",defender:"german"} },
-                    { id:"caen_1944", name:"卡昂方向", status:"interface", interfaceOnly:true, factions:["GBR","GER"], roles:{attacker:"british",defender:"german"} },
-                    { id:"normandy_grand_1944", name:"诺曼底登陆（大型战役）", status:"interface", interfaceOnly:true, factions:["ALLIED","GER"], roles:{attacker:"allied",defender:"german"} }
-                ]
-            }
+                    id: "western_front",
+                    name: "西欧战场",
+                    subtitle: "Western Front · 1944–1945",
+                    phases: [
+                        {
+                            id: "normandy_1944",
+                            name: "1944：诺曼底登陆",
+                            scenarios: [
+                                { id:"omaha_1944", name:"奥马哈海滩", subtitle:"Omaha Beach · D-Day", dateText:"1944年6月6日", location:"法国·诺曼底", status:"available", scenarioPath:"./data/scenario-omaha_1944.json", unitsPath:"./data/units-omaha_1944.json", factions:["USA","GER"], roles:{attacker:"american",defender:"german"}, start:{year:1944,month:6,day:6,hour:6,minute:30,hoursPerTurn:0.5,startingPhase:"american"} },
+                                { id:"utah_1944", name:"犹他海滩", status:"interface", interfaceOnly:true, factions:["USA","GER"], roles:{attacker:"american",defender:"german"} },
+                                { id:"pointe_du_hoc_1944", name:"奥克角", status:"interface", interfaceOnly:true, factions:["USA","GER"], roles:{attacker:"american",defender:"german"} },
+                                { id:"sainte_mere_eglise_1944", name:"圣梅尔埃格利斯", status:"interface", interfaceOnly:true, factions:["USA","GER"], roles:{attacker:"american",defender:"german"} },
+                                { id:"pegasus_bridge_1944", name:"佩加索斯桥", status:"interface", interfaceOnly:true, factions:["GBR","GER"], roles:{attacker:"british",defender:"german"} },
+                                { id:"gold_1944", name:"黄金海滩", status:"interface", interfaceOnly:true, factions:["GBR","GER"], roles:{attacker:"british",defender:"german"} },
+                                { id:"juno_1944", name:"朱诺海滩", status:"interface", interfaceOnly:true, factions:["ALLIED","GER"], roles:{attacker:"allied",defender:"german"} },
+                                { id:"sword_1944", name:"宝剑海滩", status:"interface", interfaceOnly:true, factions:["GBR","GER"], roles:{attacker:"british",defender:"german"} },
+                                { id:"caen_1944", name:"卡昂方向", status:"interface", interfaceOnly:true, factions:["GBR","GER"], roles:{attacker:"british",defender:"german"} },
+                                { id:"normandy_grand_1944", name:"诺曼底登陆（大型战役）", status:"interface", interfaceOnly:true, factions:["ALLIED","GER"], roles:{attacker:"allied",defender:"german"} }
+                            ]
+                        }
+                    ]
+                },
+            {
+
+                    id: "eastern_europe",
+
+                    name: "东欧战场",
+
+                    subtitle: "Eastern Europe",
+
+ 
+
+                    phases: [
+
+ 
+
+                        {
+
+                            id: "poland_1939",
+
+                            name: "1939：波兰战役",
+
+                            scenarios: []
+
+                        },
+
+ 
+
+                        {
+
+                            id: "balkans_1941",
+
+                            name: "1941：巴尔干战役",
+
+                            scenarios: []
+
+                        },
+
+ 
+
+                        {
+
+                            id: "romania_hungary_1944",
+
+                            name: "1944：罗马尼亚—匈牙利",
+
+                            scenarios: []
+
+                        },
+
+ 
+
+                        {
+
+                            id: "central_europe_1945",
+
+                            name: "1945：中欧决战",
+
+                            scenarios: []
+
+                        }
+
+                    ]
+
+                }
         ]
     }
 
@@ -1007,63 +1015,34 @@ export const CAMPAIGNS = [
  */
 
 export function findScenarioById(id) {
+    if (!id) return null;
 
- 
-
-    if (!id) {
-
+    const searchTheater = (theater, rootTheater = theater) => {
+        if (!theater || !Array.isArray(theater.phases)) return null;
+        for (const phase of theater.phases) {
+            if (!phase || !Array.isArray(phase.scenarios)) continue;
+            for (const item of phase.scenarios) {
+                if (!item) continue;
+                if (item.id === id) return { theater: rootTheater, subtheater: theater, phase, scenario: item };
+                if (Array.isArray(item.children)) {
+                    const child = item.children.find(child => child && child.id === id);
+                    if (child) return { theater: rootTheater, subtheater: theater, phase, scenario: child, parentScenario: item };
+                }
+            }
+        }
         return null;
-
-    }
-
- 
+    };
 
     for (const theater of CAMPAIGNS) {
-
- 
-
-        if (!theater || !Array.isArray(theater.phases)) {
-
-            continue;
-
-        }
-
- 
-
-        for (const phase of theater.phases) {
-
- 
-
-            if (!phase || !Array.isArray(phase.scenarios)) {
-
-                continue;
-
+        if (Array.isArray(theater.subtheaters)) {
+            for (const subtheater of theater.subtheaters) {
+                const found = searchTheater(subtheater, theater);
+                if (found) return found;
             }
-
- 
-
-            for (const item of phase.scenarios) {
-
-                if (!item) continue;
-
-                if (item.id === id) return { theater, phase, scenario: item };
-
-                if (Array.isArray(item.children)) {
-
-                    const child = item.children.find(child => child && child.id === id);
-
-                    if (child) return { theater, phase, scenario: child, parentScenario: item };
-
-                }
-
-            }
-
+        } else {
+            const found = searchTheater(theater, theater);
+            if (found) return found;
         }
-
     }
-
- 
-
     return null;
-
 }

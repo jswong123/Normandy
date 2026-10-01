@@ -143,9 +143,10 @@ export class CampaignSelection {
 
             button.onclick = () => {
 
+                this.rootTheater = null;
                 this.theater = CAMPAIGNS.find(x => x.id === button.dataset.theater);
-
-                this.renderPhases();
+                if (Array.isArray(this.theater?.subtheaters) && this.theater.subtheaters.length) this.renderSubtheaters();
+                else this.renderPhases();
 
             };
 
@@ -154,6 +155,30 @@ export class CampaignSelection {
     }
 
  
+
+    renderSubtheaters() {
+        const rootTheater = this.theater;
+        const cards = rootTheater.subtheaters.map(item => `
+            <button data-subtheater="${item.id}" style="min-height:${item.ui?.height ?? 150}px;padding:20px;
+                border:1px solid #696553;background:#c8c1a4;cursor:pointer;font:inherit;text-align:left;">
+                <strong style="display:block;font-size:26px;margin-bottom:10px;">${item.name}</strong>
+                <span>${item.subtitle ?? ""}</span>
+            </button>`).join("");
+        const overlay = this.shell(
+            rootTheater.name,
+            "选择欧洲战区",
+            `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;">${cards}</div>`,
+            () => { this.theater = rootTheater; this.renderTheaters(); }
+        );
+        overlay.querySelectorAll("[data-subtheater]").forEach(button => {
+            button.onclick = () => {
+                const sub = rootTheater.subtheaters.find(x => x.id === button.dataset.subtheater);
+                this.rootTheater = rootTheater;
+                this.theater = sub;
+                this.renderPhases();
+            };
+        });
+    }
 
     renderPhases() {
 
@@ -183,7 +208,14 @@ export class CampaignSelection {
 
             `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">${cards}</div>`,
 
-            () => this.renderTheaters()
+            () => {
+                if (this.rootTheater?.subtheaters?.includes(this.theater)) {
+                    const root = this.rootTheater;
+                    this.theater = root;
+                    this.rootTheater = null;
+                    this.renderSubtheaters();
+                } else this.renderTheaters();
+            }
 
         );
 
@@ -315,7 +347,7 @@ export class CampaignSelection {
             scenario.name, `${scenario.dateText ?? ""} · ${scenario.location ?? ""}`,
             `<div style="padding:24px;background:#c8c1a4;border:1px solid #696553;line-height:1.8;">
                 ${parent && parent.id !== scenario.id ? `<div><strong>所属会战：</strong>${parent.name}</div>` : ""}
-                <div><strong>战场：</strong>${this.theater.name}</div><div><strong>阶段：</strong>${this.phase.name}</div>
+                <div><strong>战场：</strong>${this.rootTheater ? `${this.rootTheater.name} · ${this.theater.name}` : this.theater.name}</div><div><strong>阶段：</strong>${this.phase.name}</div>
                 <div><strong>战役：</strong>${scenario.name}</div><div><strong>规模：</strong>营 / 连级战术单位</div>
                 ${scenario.urbanDefense ? `<div><strong>城市防御：</strong>启用分段城墙系统（独立耐久 / 0耐久形成缺口 / 完整城墙禁止绕行）</div>` : ""}
                 ${scenario.interfaceOnly ? `<div style="margin-top:18px;padding:12px;border:1px dashed #696553;"><strong>开发状态：</strong>战役接口已建立；地图、单位与具体任务数据将在后续版本制作。</div>` : ""}
@@ -340,7 +372,7 @@ export class CampaignSelection {
 
             `<div style="padding:24px;background:#c8c1a4;border:1px solid #696553;line-height:1.8;">
 
-                <div><strong>战场：</strong>${this.theater.name}</div>
+                <div><strong>战场：</strong>${this.rootTheater ? `${this.rootTheater.name} · ${this.theater.name}` : this.theater.name}</div>
 
                 <div><strong>阶段：</strong>${this.phase.name}</div>
 

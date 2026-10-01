@@ -2371,6 +2371,34 @@ export class Renderer {
         }
     }
 
+    drawControlZones(zoneControl) {
+        if (!this.showControlZones || !zoneControl) return;
+        zoneControl.recompute?.();
+        const ctx = this.ctx;
+        const size = this.hexSize * this.camera.zoom;
+        const attacker = this.normalizeFactionSide(this.attackerSide);
+        const defender = this.normalizeFactionSide(this.defenderSide);
+        if (!attacker && !defender) return;
+
+        ctx.save();
+        for (let r = 0; r < this.world.height; r++) {
+            for (let q = 0; q < this.world.width; q++) {
+                const a = attacker && zoneControl.isControlledBy(attacker, q, r);
+                const d = defender && zoneControl.isControlledBy(defender, q, r);
+                if (!a && !d) continue;
+                const p = this.worldToScreen(q, r);
+                drawHexPath(ctx, p.x, p.y, size * 0.96);
+                // 项目统一规则：进攻方红、守方蓝；争夺区紫灰。
+                ctx.fillStyle = a && d ? 'rgba(112,72,118,.24)' : a ? 'rgba(178,54,48,.20)' : 'rgba(55,91,158,.20)';
+                ctx.fill();
+                ctx.strokeStyle = a && d ? 'rgba(105,62,112,.58)' : a ? 'rgba(158,42,38,.52)' : 'rgba(42,73,139,.52)';
+                ctx.lineWidth = Math.max(0.8, 1.15 * (this.camera.zoom ?? 1));
+                ctx.stroke();
+            }
+        }
+        ctx.restore();
+    }
+
     drawFogOfWar(fog) {
         if(!fog||!fog.side)return; const ctx=this.ctx,size=this.hexSize*this.camera.zoom; ctx.save();
         for(let r=0;r<this.world.height;r++)for(let q=0;q<this.world.width;q++){const state=fog.stateAt(q,r);if(state===2)continue;const p=this.worldToScreen(q,r);drawHexPath(ctx,p.x,p.y,size);ctx.fillStyle=state===1?'rgba(27,30,26,.46)':'rgba(12,15,13,.82)';ctx.fill();}
@@ -2532,6 +2560,9 @@ render(
     // ========================================================
 
     this.drawMovementRange();
+
+    // 控制区：进攻方红、守方蓝；仅改变可视化，不遮挡单位。
+    this.drawControlZones(this.zoneControl);
 
 
     // ========================================================
