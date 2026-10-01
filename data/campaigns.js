@@ -1030,6 +1030,7 @@ export function findScenarioById(id) {
     };
 
     for (const theater of CAMPAIGNS) {
+        if (!theater) continue;
         if (Array.isArray(theater.subtheaters)) {
             for (const subtheater of theater.subtheaters) {
                 const found = searchTheater(subtheater, theater);
